@@ -1,5 +1,7 @@
-import { testApi } from "./modules/test"
-
-export {
-  testApi
+import request from "./request"
+export const getPools = (data) => {
+  return request(data, {
+    url: 'api/pools',
+    method: 'get'
+  })
 }

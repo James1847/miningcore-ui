@@ -4,6 +4,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "proxy": "node server",
     "start": "next start",
     "lint": "next lint"
   },
