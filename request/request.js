@@ -4,7 +4,7 @@ const service = axios.create({
   baseURL: BASE_URL, // url = base url + request url
   withCredentials: true, // send cookies when cross-domain requests
   timeout: 60000, // request timeout
-  withCredentials: false
+  // withCredentials: false
 })
 // 请求拦截器
 service.interceptors.request.use(
@@ -15,6 +15,7 @@ service.interceptors.request.use(
     return Promise.reject(error)
   }
 )
+// eslint-disable-next-line import/no-anonymous-default-export
 export default (data = {}, { url, method }, showErrMsg = true) => {
   return new Promise((resolve, reject) => {
     service({
