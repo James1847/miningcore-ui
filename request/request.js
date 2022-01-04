@@ -1,5 +1,6 @@
 import axios from 'axios'
-const BASE_URL = 'http://18.130.107.69:4000/api/pools'
+// const BASE_URL = 'http://18.130.107.69:4000/api/pools'// 生产
+const BASE_URL = 'http://8.208.103.252:4000/api/pools'// 测试
 const service = axios.create({
   baseURL: BASE_URL, // url = base url + request url
   // withCredentials: true, // send cookies when cross-domain requests

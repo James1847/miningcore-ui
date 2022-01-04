@@ -1,40 +1,38 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { getStatistics } from '@/request'
 import { useEffect, useState } from 'react'
-import { Table, Statistic, Card, Row, Col, Input, message } from 'antd'
+import dayjs from 'dayjs';
+import { Table, Statistic, Card, Row, Col, Input, message, Tabs } from 'antd'
 const { Search } = Input
-// import { ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons';
+const { TabPane } = Tabs
 export default function () {
   const app = useSelector(state => state.app)
   const [listData, setListData] = useState([])
-  const [headerData, setHeaderData] = useState({
-    "pendingShares": 16000,
-    "pendingBalance": 1.23,
-    "totalPaid": 0,
-    "lastPayment": null,
-    "lastPaymentLink": null,
-    "performance": {
-      "created": "2017-12-29T13:07:23.845444",
-      "workers": {
-        "worker1": {
-          "hashrate": 1000,
-          "sharesPerSecond": 0.0008333333333333334
-        },
-        "worker2": {
-          "hashrate": 2000,
-          "sharesPerSecond": 0.001666666
-        }
-      }
-    }
-  })
+  const [list, setList] = useState([])
+  const [headerData, setHeaderData] = useState({})
   const getList = (val) => {
     if (!val) return message.warning('please input miner-wallet-address')
     getStatistics({ id: app[0].id, address: val }).then(res => {
-      console.log(res)
-      //   setListData(res)
+      setHeaderData(res)
+      setList(res.performanceSamples)
+      if (res.performanceSamples[0]) {
+        setListData(preWorkers(res.performanceSamples[0]))
+      }
     })
   }
+  const preWorkers = (data) => {
+    const workers = []
+    for (const key in data.workers) {
+      workers.push({ created: data.created, ...data.workers[key], workerName: key })
+    }
+    return workers
+  }
   const columns = [
+    {
+      title: 'workerName',
+      dataIndex: 'workerName',
+      key: 'workerName',
+    },
     {
       title: 'hashrate',
       dataIndex: 'hashrate',
@@ -46,6 +44,11 @@ export default function () {
       key: 'sharesPerSecond',
     }
   ]
+  const tabChange = (val) => {
+    if (list[val]) {
+      setListData(preWorkers(list[val]))
+    }
+  }
   return (
     <>
       <Search placeholder="input miner-wallet-address" enterButton="Search" size="large"
@@ -96,6 +99,17 @@ export default function () {
           } >
             <Card>
               <Statistic
+                title="totalPaid"
+                value={headerData.todayPaid || 0}
+                valueStyle={{ color: '#3f8600' }}
+              />
+            </Card>
+          </Col>
+          <Col style={
+            { flex: 1 }
+          } >
+            <Card>
+              <Statistic
                 title="lastPayment"
                 value={headerData.lastPayment || 0}
                 valueStyle={{ color: '#cf1322' }}
@@ -115,7 +129,12 @@ export default function () {
           </Col>
         </Row>
       </div>
-      <Table rowKey="id" dataSource={listData} columns={columns} />
+      <Tabs defaultActiveKey="1" tabPosition={'top'} style={{ height: 60 }} onChange={tabChange}>
+        {list.map((item, index) => (
+          <TabPane tab={`${dayjs(item.created).format('YYYY-MM-DD HH:mm')}`} key={index}></TabPane>
+        ))}
+      </Tabs>
+      <Table rowKey="workerName" dataSource={listData} columns={columns} />
     </>
   )
 }
