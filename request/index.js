@@ -38,7 +38,7 @@ export const getCurrentBlocks = (data) => {
 }
 export const getMiners = (data) => {
   return request(data, {
-    url: '/eth1/miners',
+    url: `/${data.id}/miners`,
     method: 'get'
   })
 }
