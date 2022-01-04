@@ -1,10 +1,10 @@
 import axios from 'axios'
-const BASE_URL = 'http://localhost:9999'
+const BASE_URL = 'http://8.208.103.252:4000/api/pools'
 const service = axios.create({
   baseURL: BASE_URL, // url = base url + request url
-  withCredentials: true, // send cookies when cross-domain requests
+  // withCredentials: true, // send cookies when cross-domain requests
   timeout: 60000, // request timeout
-  // withCredentials: false
+  withCredentials: false
 })
 // 请求拦截器
 service.interceptors.request.use(
