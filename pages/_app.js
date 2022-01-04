@@ -7,6 +7,7 @@ import { InitStore } from '@/components/InitStore';
 import { Provider } from 'react-redux'
 const menuList = [
   { name: 'top miners', path: '/' },
+  { name: 'pool performance', path: '/poolPerformance' },
   { name: 'test', path: '/test' },
   { name: 'currentBlocks', path: '/currentBlocks' },
   { name: 'payments', path: '/payments' },

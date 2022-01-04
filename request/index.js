@@ -42,3 +42,10 @@ export const getMiners = (data) => {
     method: 'get'
   })
 }
+
+export const getPoolPerformance = (data) => {
+  return request(data, {
+    url: `/${data.id}/performance`,
+    method: 'get'
+  })
+}
