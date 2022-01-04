@@ -6,7 +6,7 @@ export default function () {
   const app = useSelector(state => state.app)
   const [listData, setListData] = useState([])
   const [pageInfo, setPageInfo] = useState({
-    page: 1,
+    page: 0,
     size: 20,
     total: 200
   })

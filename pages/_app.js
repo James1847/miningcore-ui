@@ -10,6 +10,9 @@ const menuList = [
   { name: 'test', path: '/test' },
   { name: 'currentBlocks', path: '/currentBlocks' },
   { name: 'payments', path: '/payments' },
+  { name: 'statistics', path: '/statistics' },
+  { name: 'paymentDetilsList', path: '/paymentDetilsList' },
+  { name: 'performance', path: '/performance' },
 ]
 function MyApp ({ Component, pageProps, ReduxStore }) {
   return (
