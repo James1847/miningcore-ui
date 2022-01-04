@@ -6,7 +6,7 @@ import Link from 'next/Link'
 import { InitStore } from '@/components/InitStore';
 import { Provider } from 'react-redux'
 const menuList = [
-  { name: 'home', path: '/' },
+  { name: 'top miners', path: '/' },
   { name: 'test', path: '/test' },
   { name: 'currentBlocks', path: '/currentBlocks' },
   { name: 'payments', path: '/payments' },
