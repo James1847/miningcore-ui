@@ -49,3 +49,21 @@ export const getPoolPerformance = (data) => {
     method: 'get'
   })
 }
+export const getStatistics = (data) => {
+  return request('', {
+    url: `/${data.id}/miners/${data.address}`,
+    method: 'get'
+  })
+}
+export const getPaymentDetilsList = (data) => {
+  return request('', {
+    url: `/${data.id}/miners/${data.address}/payments`,
+    method: 'get'
+  })
+}
+export const getPerformance = (data) => {
+  return request('', {
+    url: `/${data.id}/miners/${data.address}/performance`,
+    method: 'get'
+  })
+}
