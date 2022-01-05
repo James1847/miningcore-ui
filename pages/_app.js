@@ -26,7 +26,7 @@ function MyApp ({ Component, pageProps, ReduxStore, router }) {
               <Popover.Group as="nav" className="space-x-10">
                 {
                   menuList.map(item => (
-                    <Link href={item.path} key={item.name} style={{ backgroundColor: pathname === item.path ? 'red' : '' }} className="text-base font-medium text-gray-500 hover:text-gray-900">
+                    <Link href={item.path} key={item.name} className="text-base font-medium text-gray-500 hover:text-gray-900">
                       {item.name}
                     </Link>
                   ))
