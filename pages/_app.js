@@ -1,5 +1,6 @@
 import 'tailwindcss/tailwind.css'
 import 'antd/dist/antd.css'
+import '@/styles/globals.css'
 import { Popover, Transition } from '@headlessui/react'
 import WithRedux from "@/store/withRedux";
 import Link from 'next/Link'
@@ -12,19 +13,20 @@ const menuList = [
   { name: 'payments', path: '/payments' },
   { name: 'statistics', path: '/statistics' },
   { name: 'paymentDetilsList', path: '/paymentDetilsList' },
-  { name: 'performance', path: '/performance' },
+  // { name: 'performance', path: '/performance' },
 ]
-function MyApp ({ Component, pageProps, ReduxStore }) {
+function MyApp ({ Component, pageProps, ReduxStore, router }) {
+  const { pathname } = router
   return (
     <>
       <Provider store={ReduxStore}>
         <InitStore>
-          <div className="px-80 mx-auto px-4 sm:px-6">
-            <div className="flex justify-between items-center border-b-2 border-gray-100 py-6 md:justify-start md:space-x-10">
-              <Popover.Group as="nav" className="hidden md:flex space-x-10">
+          <div className="mx-auto px-4 ">
+            <div className="flex justify-between items-center border-b-2 border-gray-100 py-6 ">
+              <Popover.Group as="nav" className="space-x-10">
                 {
                   menuList.map(item => (
-                    <Link href={item.path} key={item.name} className="text-base font-medium text-gray-500 hover:text-gray-900">
+                    <Link href={item.path} key={item.name} style={{ backgroundColor: pathname === item.path ? 'red' : '' }} className="text-base font-medium text-gray-500 hover:text-gray-900">
                       {item.name}
                     </Link>
                   ))
@@ -32,7 +34,7 @@ function MyApp ({ Component, pageProps, ReduxStore }) {
               </Popover.Group>
             </div>
           </div>
-          <div className='px-80 mx-auto sm:px-6 mt-8'>
+          <div className=' mx-auto sm:px-6 mt-8'>
             <Component {...pageProps} />
           </div>
         </InitStore>

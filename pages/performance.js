@@ -55,7 +55,7 @@ export default function () {
         } onSearch={getList} />
       <Tabs defaultActiveKey="1" tabPosition={'top'} style={{ height: 60 }} onChange={tabChange}>
         {list.map((item, index) => (
-          <TabPane tab={`${dayjs(item.created).format('YYYY-MM-DD HH:mm')}`} key={index}></TabPane>
+          <TabPane tab={`${dayjs(item.created).format('MM-DD HH:mm')}`} key={index}></TabPane>
         ))}
       </Tabs>
       <Table rowKey="workerName" dataSource={listData} columns={columns} />

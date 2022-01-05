@@ -8,13 +8,24 @@ export default function () {
     const [pageInfo, setPageInfo] = useState({
         page: 0,
         size: 24,
-        total: 200
+        total: 1000
     })
+    const pageChange = (obj) => {
+        setPageInfo({
+            ...pageInfo,
+            page: obj.current - 1,
+            size: obj.pageSize
+        })
+    }
+    const pagination = {
+        showQuickJumper: true,
+        total: pageInfo.total
+    }
     useEffect(() => {
         getPoolPerformance({ id: app[0].id, page: pageInfo.page, pageSize: pageInfo.size }).then(res => {
-            setListData(res.stats)
+            setListData(res.stats.map((item, index) => ({ ...item, id: index })))
         })
-    }, [])
+    }, [pageInfo])
     const columns = [
         {
             title: 'poolHashrate',
@@ -48,6 +59,6 @@ export default function () {
         }
     ]
     return (
-        <Table rowKey="id" dataSource={listData} columns={columns} />
+        <Table rowKey="id" dataSource={listData} columns={columns} onChange={pageChange} pagination={pagination} />
     )
 }

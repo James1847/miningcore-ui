@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { getStatistics } from '@/request'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import dayjs from 'dayjs';
 import { Table, Statistic, Card, Row, Col, Input, message, Tabs } from 'antd'
 const { Search } = Input
@@ -14,7 +14,7 @@ export default function () {
     if (!val) return message.warning('please input miner-wallet-address')
     getStatistics({ id: app[0].id, address: val }).then(res => {
       setHeaderData(res)
-      setList(res.performanceSamples)
+      setList(res.performanceSamples.sort((a, b) => -1))
       if (res.performanceSamples[0]) {
         setListData(preWorkers(res.performanceSamples[0]))
       }
@@ -131,7 +131,7 @@ export default function () {
       </div>
       <Tabs defaultActiveKey="1" tabPosition={'top'} style={{ height: 60 }} onChange={tabChange}>
         {list.map((item, index) => (
-          <TabPane tab={`${dayjs(item.created).format('YYYY-MM-DD HH:mm')}`} key={index}></TabPane>
+          <TabPane tab={`${dayjs(item.created).format('MM-DD HH:mm')}`} key={index} ></TabPane>
         ))}
       </Tabs>
       <Table rowKey="workerName" dataSource={listData} columns={columns} />

@@ -10,11 +10,22 @@ export default function () {
         size: 20,
         total: 200
     })
+    const pageChange = (obj) => {
+        setPageInfo({
+            ...pageInfo,
+            page: obj.current - 1,
+            size: obj.pageSize
+        })
+    }
+    const pagination = {
+        showQuickJumper: true,
+        total: pageInfo.total
+    }
     useEffect(() => {
         getMiners({ id: app[0].id, page: pageInfo.page, pageSize: pageInfo.size }).then(res => {
             setListData(res)
         })
-    }, [])
+    }, [pageInfo])
     const columns = [
         {
             title: 'miner',
@@ -33,6 +44,6 @@ export default function () {
         }
     ]
     return (
-        <Table rowKey="id" dataSource={listData} columns={columns} />
+        <Table rowKey="miner" dataSource={listData} columns={columns} onChange={pageChange} pagination={pagination} />
     )
 }

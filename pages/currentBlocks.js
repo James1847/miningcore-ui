@@ -10,11 +10,22 @@ export default function () {
     size: 20,
     total: 200
   })
+  const pageChange = (obj) => {
+    setPageInfo({
+      ...pageInfo,
+      page: obj.current - 1,
+      size: obj.pageSize
+    })
+  }
+  const pagination = {
+    showQuickJumper: true,
+    total: pageInfo.total
+  }
   useEffect(() => {
     getCurrentBlocks({ id: app[0].id, page: pageInfo.page, pageSize: pageInfo.size }).then(res => {
-      setListData(res)
+      setListData(res.map((item, index) => ({ ...item, id: index })))
     })
-  }, [])
+  }, [pageInfo])
   const columns = [
     {
       title: 'blockHeight',
@@ -58,6 +69,6 @@ export default function () {
     },
   ]
   return (
-    <Table rowKey="id" dataSource={listData} columns={columns} />
+    <Table rowKey="id" dataSource={listData} columns={columns} onChange={pageChange} pagination={pagination} />
   )
 }
