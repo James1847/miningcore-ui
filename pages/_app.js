@@ -3,7 +3,7 @@ import 'antd/dist/antd.css'
 import '@/styles/globals.css'
 import { Popover, Transition } from '@headlessui/react'
 import WithRedux from "@/store/withRedux";
-import Link from 'next/Link'
+import Link from 'next/link'
 import { InitStore } from '@/components/InitStore';
 import { Provider } from 'react-redux'
 const menuList = [
