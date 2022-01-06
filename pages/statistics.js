@@ -5,29 +5,13 @@ import dayjs from 'dayjs';
 import { Table, Statistic, Card, Row, Col, Input, message, Tabs } from 'antd'
 const { Search } = Input
 const { TabPane } = Tabs
-export default function () {
+export default  function () {
   const app = useSelector(state => state.app)
+  const searchEl = useRef(null)
   const [listData, setListData] = useState([])
   const [list, setList] = useState([])
   const [headerData, setHeaderData] = useState({})
-  const getList = (val) => {
-    if (!val) return message.warning('please input miner-wallet-address')
-    getStatistics({ id: app[0].id, address: val }).then(res => {
-      setHeaderData(res)
-      setList(res.performanceSamples.sort((a, b) => -1))
-      if (res.performanceSamples[0]) {
-        setListData(preWorkers(res.performanceSamples[0]))
-      }
-    })
-  }
-  const preWorkers = (data) => {
-    const workers = []
-    for (const key in data.workers) {
-      workers.push({ created: data.created, ...data.workers[key], workerName: key })
-    }
-    return workers
-  }
-  const columns = [
+  const [columns,setColumns] = useState([
     {
       title: 'workerName',
       dataIndex: 'workerName',
@@ -43,15 +27,55 @@ export default function () {
       dataIndex: 'sharesPerSecond',
       key: 'sharesPerSecond',
     }
-  ]
-  const tabChange = (val) => {
-    if (list[val]) {
-      setListData(preWorkers(list[val]))
+  ])
+  const [activeKey,setActiveKey] = useState('0')
+  const [timeId ,setTimeId] = useState(null)
+  const getList = (val) => {
+    setActiveKey('0')
+    if (!val){
+      return message.warning('please input miner-wallet-address')
     }
+    getStatistics({ id: app[0].id, address: val }).then(res => {
+      getLoop()
+      setHeaderData(res)
+      setList(res.performanceSamples.sort((a, b) => -1))
+        const currentList = preWorkers(res.performanceSamples[0]||[])
+        updateTitle(currentList)
+        setListData(currentList)
+    })
+  }
+  const preWorkers = (data) => {
+    const workers = []
+    for (const key in data.workers) {
+      workers.push({ created: data.created, ...data.workers[key], workerName: key ,hashrate:data.workers[key].hashrate/1000000})
+    }
+    return workers
+  }
+  const getLoop = ()=>{
+        clearTimeout(timeId)
+const inp = searchEl.current
+        if(!inp||!inp.state||!inp.state.value)return
+     setTimeId(setTimeout(() => {
+        getList(inp.state.value)
+      }, 3000))
+  }
+  const tabChange = (val) => {
+    getLoop()
+    setActiveKey(val)
+      const currentList = preWorkers(list[val]||[])
+      setListData(currentList)
+      updateTitle(currentList)
+  }
+  const updateTitle = (currentList)=>{
+      const  temp = [...columns]
+      const  sum = currentList.reduce((sum,item)=>sum+item.hashrate,0)
+      temp[0].title=`workerName(${currentList.length})`
+      temp[1].title=`hashrate(${sum})`
+      setColumns(temp)
   }
   return (
     <>
-      <Search placeholder="input miner-wallet-address" enterButton="Search" size="large"
+      <Search ref={searchEl} placeholder="input miner-wallet-address" enterButton="Search" size="large"
         style={
           { marginBottom: '20px' }
         } onSearch={getList} />
@@ -129,12 +153,12 @@ export default function () {
           </Col>
         </Row>
       </div>
-      <Tabs defaultActiveKey="1" tabPosition={'top'} style={{ height: 60 }} onChange={tabChange}>
+      <Tabs type="card" activeKey={activeKey} tabPosition={'top'} style={{ height: 60 }} onChange={tabChange}>
         {list.map((item, index) => (
           <TabPane tab={`${dayjs(item.created).format('MM-DD HH:mm')}`} key={index} ></TabPane>
         ))}
       </Tabs>
-      <Table rowKey="workerName" dataSource={listData} columns={columns} />
+      <Table rowKey="workerName" dataSource={listData} columns={columns}  pagination={{ position: ['none','none'] }} />
     </>
   )
 }

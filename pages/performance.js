@@ -53,7 +53,7 @@ export default function () {
         style={
           { marginBottom: '20px' }
         } onSearch={getList} />
-      <Tabs defaultActiveKey="1" tabPosition={'top'} style={{ height: 60 }} onChange={tabChange}>
+      <Tabs  type="card" defaultActiveKey="1" tabPosition={'top'} style={{ height: 60 }} onChange={tabChange}>
         {list.map((item, index) => (
           <TabPane tab={`${dayjs(item.created).format('MM-DD HH:mm')}`} key={index}></TabPane>
         ))}

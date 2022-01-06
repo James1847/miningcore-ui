@@ -15,5 +15,21 @@ a {
   box-sizing: border-box;
 }
 .ant-tabs-nav-more{
-  display: none;
+  /* display: none; */
+}
+.loading{
+  position:fixed;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%)
+}
+.loading .ant-spin-dot-spin{
+  font-size:88px;
+}
+.loading .ant-spin-text{
+  font-size:20px;
+}
+.loading .ant-spin-dot-item{
+  width:50px !important;
+  height:50px !important;
 }
