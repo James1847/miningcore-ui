@@ -33,3 +33,16 @@ a {
   width:50px !important;
   height:50px !important;
 }
+.header{
+  display:flex;
+}
+.header-left{
+  flex: 1;
+}
+.header-right{
+  font-size: 20px;
+  align-self: center;
+}
+.header-right span{
+  color:#40a9ff;
+}

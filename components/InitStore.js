@@ -18,6 +18,6 @@ export const InitStore = ({ children }) => {
     }
   }, [app])
   return (
-    !isLoading ? children : <Spin size="large" className="loading"  tip="Loading..."/>
+    !isLoading ? children : <Spin size="large" className="loading" tip="Loading..." />
   )
 }

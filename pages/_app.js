@@ -4,8 +4,9 @@ import '@/styles/globals.css'
 import { Popover, Transition } from '@headlessui/react'
 import WithRedux from "@/store/withRedux";
 import Link from 'next/link'
-import { InitStore } from '@/components/InitStore';
+import { InitStore, HeaderRight } from '@/components';
 import { Provider } from 'react-redux'
+import { useEffect } from 'react'
 const menuList = [
   { name: 'top miners', path: '/' },
   { name: 'pool performance', path: '/poolPerformance' },
@@ -15,14 +16,13 @@ const menuList = [
   { name: 'paymentDetilsList', path: '/paymentDetilsList' },
   // { name: 'performance', path: '/performance' },
 ]
-function MyApp ({ Component, pageProps, ReduxStore, router }) {
-  const { pathname } = router
+function MyApp ({ Component, pageProps, ReduxStore }) {
   return (
     <>
       <Provider store={ReduxStore}>
         <InitStore>
-          <div className="mx-auto px-4 ">
-            <div className="flex justify-between items-center border-b-2 border-gray-100 py-6 ">
+          <div className="mx-auto px-4 header  border-b-2">
+            <div className="header-left flex justify-between items-center border-gray-100 py-6 ">
               <Popover.Group as="nav" className="space-x-10">
                 {
                   menuList.map(item => (
@@ -33,6 +33,7 @@ function MyApp ({ Component, pageProps, ReduxStore, router }) {
                 }
               </Popover.Group>
             </div>
+            <HeaderRight />
           </div>
           <div className=' mx-auto sm:px-6 mt-8'>
             <Component {...pageProps} />
