@@ -9,9 +9,9 @@ import { Provider } from 'react-redux'
 import { useEffect } from 'react'
 const menuList = [
   { name: 'top miners', path: '/' },
-  { name: 'pool performance', path: '/poolPerformance' },
+  // { name: 'pool performance', path: '/poolPerformance' },
   { name: 'currentBlocks', path: '/currentBlocks' },
-  { name: 'payments', path: '/payments' },
+  // { name: 'payments', path: '/payments' },
   { name: 'statistics', path: '/statistics' },
   { name: 'paymentDetilsList', path: '/paymentDetilsList' },
   // { name: 'performance', path: '/performance' },
